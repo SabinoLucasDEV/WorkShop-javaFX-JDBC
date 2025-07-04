@@ -34,12 +34,13 @@ public class MainViewController implements Initializable {
 		loadView("DepartmentList.fxml", (DepartmentControler controller) -> {
 			controller.setDepartmentService(new DepartmentService());
 			controller.updateTableView();
-		
+
 		});
-		}
+	}
 
 	public void onMenuItemAboutAction() {
-		loadView("About.fxml", x -> {});
+		loadView("About.fxml", x -> {
+		});
 	}
 
 	@Override
@@ -52,22 +53,20 @@ public class MainViewController implements Initializable {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			VBox newVBox = loader.load();
-			
+
 			Scene mainScene = Main.getMainScene();
 			VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
-			
+
 			Node mainMenu = mainVBox.getChildren().get(0);
 			mainVBox.getChildren().clear();
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(newVBox.getChildren());
-			
-		T controller = 	loader.getController();
-		initialazingAction.accept(controller);
-		}
-		catch (IOException e) {
+
+			T controller = loader.getController();
+			initialazingAction.accept(controller);
+		} catch (IOException e) {
 			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
 		}
 	}
-
 
 }
